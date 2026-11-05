@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Whisker Town 🐾</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="logo">🐾 Whisker Town</div>
+    <nav id="rooms"></nav>
+    <div class="right">
+      <span id="status"><span id="dot"></span><span id="online">connecting…</span></span>
+      <button id="mute" title="Sound on/off">🔊</button>
+    </div>
+  </header>
+
+  <main>
+    <aside id="sidebar">
+      <div class="side-head">
+        <h2>My cats <span id="catCount" class="pill">0</span></h2>
+      </div>
+      <button id="newCat" class="primary big">＋ Adopt a cat</button>
+      <div id="myCats"></div>
+      <button id="summon" class="soft">📣 Call all my cats here</button>
+      <div class="help">
+        <b>How to play</b>
+        <ul>
+          <li>Pick one of your cats, then <b>click the ground</b> to walk.</li>
+          <li><b>Shift + click</b> moves all your cats in this room.</li>
+          <li><b>Click any cat</b> (yours or someone else's) to boop, play, groom, cuddle or pounce.</li>
+          <li>Walk to a <b>signpost</b> to go to another place.</li>
+          <li>Cats you leave alone will wander and make friends on their own.</li>
+        </ul>
+      </div>
+    </aside>
+
+    <section id="stage">
+      <div id="canvasWrap">
+        <canvas id="game"></canvas>
+        <div id="roomLabel"></div>
+        <div id="popup" class="hidden"></div>
+      </div>
+      <div id="controls">
+        <div id="selectedInfo"></div>
+        <form id="chatForm" autocomplete="off">
+          <input id="chatInput" maxlength="100" placeholder="Say something… (press Enter)">
+          <button class="primary">Send</button>
+        </form>
+        <div id="emotes">
+          <button data-act="meow">😺 Meow</button>
+          <button data-act="purr">💗 Purr</button>
+          <button data-act="dance">💃 Dance</button>
+          <button data-act="jump">⤴️ Jump</button>
+          <button data-act="sleep">💤 Nap</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Welcome -->
+  <div id="nameModal" class="modal">
+    <div class="modal-card welcome">
+      <canvas id="welcomeCats" width="420" height="140"></canvas>
+      <h1>Welcome to Whisker Town!</h1>
+      <p>A cozy town where everyone brings their cats to play together.</p>
+      <form id="nameForm">
+        <input id="playerName" maxlength="16" placeholder="Your name" required>
+        <button class="primary big">Enter town 🐾</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Cat creator -->
+  <div id="creator" class="modal hidden">
+    <div class="modal-card creator">
+      <h2 id="creatorTitle">Adopt a new cat</h2>
+      <div class="creator-body">
+        <div class="preview-col">
+          <canvas id="preview" width="240" height="240"></canvas>
+          <button id="cRandom" class="soft">🎲 Surprise me</button>
+        </div>
+        <div class="fields">
+          <label class="field"><span>Name</span><input id="cName" maxlength="16"></label>
+          <div class="field"><span>Fur</span><div class="swatches" data-key="fur"></div></div>
+          <div class="field"><span>Pattern</span><div class="chips" data-key="pattern"></div></div>
+          <div class="field"><span>Pattern color</span><div class="swatches" data-key="patternColor"></div></div>
+          <div class="field"><span>Eyes</span><div class="swatches" data-key="eyes"></div></div>
+          <div class="field"><span>Accessory</span><div class="chips" data-key="accessory"></div></div>
+          <div class="field"><span>Accessory color</span><div class="swatches" data-key="accColor"></div></div>
+        </div>
+      </div>
+      <div class="actions">
+        <button id="cCancel" class="soft">Cancel</button>
+        <button id="cSave" class="primary big">Adopt!</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <script src="shared.js"></script>
+  <script src="catdraw.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
