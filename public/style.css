@@ -160,3 +160,9 @@ main { flex: 1; display: flex; gap: 16px; padding: 16px; min-height: 0; }
   #canvasWrap, #controls { max-width: 100%; }
   .help { display: none; }
 }
+
+.tutorial { list-style: none; padding: 0; margin: 4px 0 16px; display: grid; gap: 8px; text-align: left; }
+.tutorial li { display: flex; gap: 10px; align-items: flex-start; background: var(--soft); border-radius: 12px; padding: 9px 12px; font-size: 0.92rem; line-height: 1.35; }
+.tutorial li span { font-size: 1.4rem; line-height: 1; }
+.tutorial b { color: var(--accent-dark); }
+[hidden] { display: none !important; }

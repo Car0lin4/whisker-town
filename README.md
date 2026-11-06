@@ -17,24 +17,31 @@ Then open **http://localhost:3000**.
 People on the **same Wi-Fi** can join with the "Same Wi-Fi" address printed in the terminal
 (for example `http://192.168.1.20:3000`).
 
-## Put it on the internet (so anyone can play)
+## Online: https://whisker-town.vercel.app
 
-The game is a small Node.js server, so it needs a host that runs Node and supports WebSockets.
-Some easy options are [Render](https://render.com), [Railway](https://railway.app), and [Fly.io](https://fly.io).
+The game is hosted on **Vercel** (project `whisker-town`). To publish changes:
 
-On Render:
-1. Push this folder to a GitHub repository.
-2. In Render, create a **New → Web Service** from that repository.
-3. Build command: `npm install`. Start command: `npm start`.
-4. Cats are saved in `data/world.json`. To keep them between deploys, add a **persistent disk**
-   and set the environment variable `DATA_DIR` to the disk's mount path (for example `/var/data`).
-   Without a disk, the town resets each time the server redeploys.
+```bash
+vercel deploy --prod
+```
+
+- `vercel.json` runs `server.js` as a Node service (static files + the live `/api/ws` connection).
+- Cats are saved in **Upstash Redis** (added from the Vercel Marketplace, which sets the
+  `KV_REST_API_URL` / `KV_REST_API_TOKEN` env vars). Without those vars, cats are saved to
+  `data/world.json` instead, which is what happens on your computer.
+- To keep costs low, the town is written to the database at most once a minute, plus a few
+  seconds after a cat is adopted, changed or removed. Cats walking around never trigger a save.
+
+It also still runs on any Node host with WebSockets (Render, Railway, Fly.io): build `npm install`,
+start `npm start`, and set `DATA_DIR` to a persistent disk path.
 
 ## How it works
 
 | File | What it does |
 |---|---|
-| `server.js` | Web server + WebSocket game server. Holds the shared world, saves it every 5 s, makes idle cats wander and befriend each other. |
+| `server.js` | Serves the game files and the live connection. |
+| `lib/world.js` | The shared world: cats, rooms, interactions; makes idle cats wander and befriend each other. |
+| `lib/storage.js` | Saves the town (Upstash Redis online, `data/world.json` locally). |
 | `public/shared.js` | Rooms, doors, colors, patterns, accessories (used by both server and browser). |
 | `public/catdraw.js` | Draws every cat from its look (fur, pattern, eyes, accessory). |
 | `public/game.js` | Rooms, movement, chat, interactions, cat creator. |
@@ -53,4 +60,4 @@ browser or device counts as a different player.
   and add a `case` in `onAct` in `game.js`.
 
 Limits: 300 cats per player and 5,000 per town. Change `MAX_CATS_PER_PLAYER` / `MAX_CATS_TOTAL`
-in `server.js`.
+in `lib/world.js`.

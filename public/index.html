@@ -12,6 +12,7 @@
     <nav id="rooms"></nav>
     <div class="right">
       <span id="status"><span id="dot"></span><span id="online">connecting…</span></span>
+      <button id="helpBtn" title="How it works" hidden>❓</button>
       <button id="mute" title="Sound on/off">🔊</button>
     </div>
   </header>
@@ -65,10 +66,28 @@
       <canvas id="welcomeCats" width="420" height="140"></canvas>
       <h1>Welcome to Whisker Town!</h1>
       <p>A cozy town where everyone brings their cats to play together.</p>
+      <ol class="tutorial">
+        <li><span>🏡</span><div><b>A playground for cats.</b> Whisker Town is a little world where cats explore the square, the café, the garden and the rooftop.</div></li>
+        <li><span>🐱</span><div><b>Adopt your cats.</b> Make as many as you like and dress them up. Click the ground to walk.</div></li>
+        <li><span>💞</span><div><b>Play together.</b> Click any cat to boop, play or cuddle. Other people join with their own cats, live.</div></li>
+      </ol>
       <form id="nameForm">
         <input id="playerName" maxlength="16" placeholder="Your name" required>
         <button class="primary big">Enter town 🐾</button>
       </form>
+    </div>
+  </div>
+
+  <!-- Tutorial (reopened with the ❓ button) -->
+  <div id="tutorialModal" class="modal hidden">
+    <div class="modal-card welcome">
+      <h1>How Whisker Town works</h1>
+      <ol class="tutorial">
+        <li><span>🏡</span><div><b>A playground for cats.</b> Whisker Town is a little world where cats explore the square, the café, the garden and the rooftop.</div></li>
+        <li><span>🐱</span><div><b>Adopt your cats.</b> Make as many as you like and dress them up. Click the ground to walk.</div></li>
+        <li><span>💞</span><div><b>Play together.</b> Click any cat to boop, play or cuddle. Other people join with their own cats, live.</div></li>
+      </ol>
+      <button id="tutorialClose" class="primary big">Got it 🐾</button>
     </div>
   </div>
 

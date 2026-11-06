@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "game": {
+      "root": ".",
+      "entrypoint": "server.js",
+      "functions": { "server.js": { "includeFiles": "public/**" } }
+    }
+  },
+  "rewrites": [{ "source": "/(.*)", "destination": { "service": "game" } }]
+}

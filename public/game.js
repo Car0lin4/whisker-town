@@ -81,7 +81,7 @@
   let ws;
   function connect() {
     const proto = location.protocol === 'https:' ? 'wss' : 'ws';
-    ws = new WebSocket(`${proto}://${location.host}/ws`);
+    ws = new WebSocket(`${proto}://${location.host}/api/ws`);
     ws.onopen = () => { send({ t: 'hello', owner: me.owner, name: me.name }); $('#dot').classList.add('on'); };
     ws.onmessage = (e) => { try { onMsg(JSON.parse(e.data)); } catch (err) { console.error(err); } };
     ws.onclose = () => {
@@ -972,21 +972,28 @@
 
   function start() {
     $('#nameModal').classList.add('hidden');
+    $('#helpBtn').hidden = false;
     connect();
   }
   $('#nameForm').onsubmit = (e) => {
     e.preventDefault();
     const n = $('#playerName').value.trim().slice(0, 16);
     if (!n) return;
+    const renamed = me.name && me.name !== n;
     me.name = n;
     localStorage.setItem('wt_name', n);
-    start();
+    if (renamed && ws && ws.readyState === 1) send({ t: 'hello', owner: me.owner, name: me.name });
+    if (!ws) start(); else $('#nameModal').classList.add('hidden');
   };
 
   // ---------- boot ----------
   fitCanvas();
   renderAll();
   requestAnimationFrame(frame);
-  if (me.name) start();
-  else { welcomeArt(); setTimeout(() => $('#playerName').focus(), 50); }
+  // The welcome card (with the mini tutorial) shows every time you arrive.
+  if (me.name) $('#playerName').value = me.name;
+  welcomeArt();
+  setTimeout(() => $('#playerName').focus(), 50);
+  $('#helpBtn').onclick = () => { $('#tutorialModal').classList.remove('hidden'); };
+  $('#tutorialClose').onclick = () => { $('#tutorialModal').classList.add('hidden'); };
 })();
